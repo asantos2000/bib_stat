@@ -1,4 +1,4 @@
-# Biblioteca de Estatísticas Bib
+# Estatísticas Bib
 
 Este projeto é uma ferramenta de linha de comando que analisa arquivos .bib (BibTeX) para extrair estatísticas úteis, como os autores mais comuns, as palavras-chave mais comuns no título, resumo e seção de palavras-chave, e a distribuição de anos de publicação.
 
