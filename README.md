@@ -27,15 +27,21 @@ Para usar esta ferramenta, você precisa ter um arquivo .bib que deseja analisar
 python bib_stats.py data/many_entries.bib 10
 
 # Output
-# Keywords in abstract: [('natural language', 51), ('large language', 20), ('verlag berlin', 15), ('g .,', 14), ('business rules', 11), ('legal documents', 10), ('legal information', 9), ('https ://', 9), ('defeasible deontic', 9), ('legal reasoning', 8)]
-# Keywords in title: [('natural language', 13), ('legal documents', 11), ('large language', 10), ('finsim', 9), ('nlp', 8), ('ontology', 8), ('legal domain', 8), ('review', 7), ('legal texts', 7), ('knowledge graphs', 7)]
-# Keywords in keyword: [('natural language processing', 31), ('sbvr', 25), ('ontology', 21), ('deep learning', 17), ('business rules', 14), ('information extraction', 12), ('nlp', 10), ('machine learning', 10), ('deontic logic', 10), ('semantic web', 10)]
+# Keywords in abstract: [('paper present', 43), ('verlag berlin', 10), ('paper propose', 9), ('based method', 8), ('recent year', 7), ('based model', 7), ('experimental result', 7), ('ccs concepts', 7), ('based approach', 6), ('also present', 6)]
+# Keywords in title: [('natural language', 7), ('ontology', 5), ('named entity', 4), ('bert', 4), ('2 task', 4), ('multi', 3), ('corpus automatic', 3), ('deontic ambiguities', 3), ('finsim', 3), ('survey', 3)]
+# Keywords in keyword: [('natural language processing', 31), ('sbvr', 25), ('ontology', 21), ('deep learning', 17), ('business rules', 14), ('information extraction', 11), ('nlp', 10), ('machine learning', 10), ('deontic logic', 10), ('semantic web', 10)]
 # Authors: [('Dieuwke, Hupkes', 41), ('Mario, Giulianelli', 39), ('Verna, Dankers', 37), ('Mikel, Artetxe', 35), ('Yanai, Elazar', 33), ('Tiago, Pimentel', 31), ('Christos, Christodoulopoulos', 29), ('Karim, Lasri', 27), ('Naomi, Saphra', 25), ('Alexa, Siu', 24)]
-# Years: [('2023', 100), ('2022', 40), ('2021', 34), ('2019', 33), ('2020', 28), ('2017', 14), ('2013', 13), ('2018', 13), ('2012', 11), ('2011', 10)]
+# Years: [('2023', 94), ('2022', 39), ('2021', 33), ('2019', 29), ('2020', 27), ('2013', 12), ('2018', 12), ('2017', 12), ('2012', 11), ('2008', 9)]
 # In the data/many_entries.bib the oldest: 1913 - Newest: 2024
 ```
 
 Isso analisará o arquivo .bib especificado e exibirá as 10 palavras-chave mais comuns no título, resumo e seção de palavras-chave, os 10 autores mais comuns e os 10 anos mais comuns de publicação.
+
+## Bertopic
+
+O notebook topic-modeling-bibtext-entries.ipynb usa a biblioteca `bertopic` para gerar tópicos a partir dos resumos dos artigos. O notebook está configurado para usar o arquivo `data/many_entries.bib` como entrada. Você pode alterar o arquivo de entrada para o que desejar.
+
+Versão no Kaggle: <https://www.kaggle.com/code/adsantos/topic-modeling-bibtex-entries>
 
 ## Problemas comuns
 

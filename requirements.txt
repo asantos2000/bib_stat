@@ -2,3 +2,8 @@ bibtexparser
 pybtex
 nltk
 rake_nltk
+plotly
+ipykernel
+bertopic
+ipywidgets
+nbformat

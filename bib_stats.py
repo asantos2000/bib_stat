@@ -3,9 +3,31 @@ from pybtex.database import parse_file
 import nltk
 from rake_nltk import Rake
 from collections import Counter
+from nltk.stem import WordNetLemmatizer
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
 
 nltk.download("stopwords", quiet=True)
 nltk.download("punkt", quiet=True)
+nltk.download("wordnet")
+nltk.download("omw-1.4")
+
+# ​Initialize wordnet lemmatizer
+wnl = WordNetLemmatizer()
+
+def remove_stop_words(sentence):
+    stop_words = set(stopwords.words('english'))
+    word_tokens = word_tokenize(sentence)
+    
+    filtered_sentence = [w for w in word_tokens if not w.lower() in stop_words]
+
+    filtered_sentence = []
+
+    for w in word_tokens:
+        if w not in stop_words:
+            filtered_sentence.append(w)
+
+    return ' '.join(filtered_sentence).replace(',','')
 
 
 def extract_keyword(text):
@@ -23,6 +45,16 @@ def extract_keyword(text):
     return keywordList
 
 
+def lemmatizer_word(word):
+    return wnl.lemmatize(word)
+
+
+def lemmatizer(sentence):
+    tokens = nltk.word_tokenize(sentence)
+    lemmatized_tokens = [lemmatizer_word(token) for token in tokens]
+    return " ".join(lemmatized_tokens)
+
+
 def process_entries(bib_file):
     bib_data = parse_file(bib_file)
     all_years = []
@@ -31,36 +63,44 @@ def process_entries(bib_file):
     all_keywords_title = []
     all_keywords_abstract = []
 
-    for _, value in bib_data.entries.items():
+    for key, value in bib_data.entries.items():
         # Years
         year = value.fields["year"]
         all_years.append(year)
+
         # Authors
         authors = []
         try:
             for author in value.persons["author"]:
                 authors.append(f"{author.first_names[0]}, {author.last_names[0]}")
                 all_authors.extend(authors)
-        except:
+        except KeyError:
+            print(f"{key}: No authors found")
             authors = None
+        except IndexError:
+            print(f"{key}: Wrong format for authors", value.persons)
+            authors = None
+
         # Keywords
         try:
             keywords = value.fields["keywords"].split(",")
             all_keywords.extend(list(map(lambda x: x.lower(), keywords)))
-        except:
+        except KeyError:
+            print(f"{key}: No keywords found")
             keywords = None
-        # Title
-        title = value.fields["title"]
 
-        kw = extract_keyword(title)
-        all_keywords_title.extend(list(map(lambda x: x.lower(), kw)))
+        # Title
+        title = lemmatizer(remove_stop_words(value.fields["title"]))
+        all_keywords_title.extend([keyword.lower() for keyword in extract_keyword(title)])
+
         # Abstract
         try:
-            abstract = value.fields["abstract"]
-            kw = extract_keyword(abstract)
-            all_keywords_abstract.extend(list(map(lambda x: x.lower(), kw)))
-        except:
+            abstract = lemmatizer(remove_stop_words(value.fields["abstract"]))
+            all_keywords_abstract.extend(keyword.lower() for keyword in extract_keyword(abstract))
+        except KeyError:
+            print(f"{key}: No abstract found")
             abstract = None
+
     return (
         all_years,
         all_authors,
